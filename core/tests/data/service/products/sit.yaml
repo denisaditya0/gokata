@@ -1,0 +1,16 @@
+Get product by ID:
+  product_id: "1"
+
+Get product not found:
+  product_id: "99999"
+
+Search products:
+  search_query: phone
+
+Search products no results:
+  search_query: xyznonexistent123
+
+"E2E: Login then get product":
+  username: emilys
+  password: emilyspass
+  product_id: "1"

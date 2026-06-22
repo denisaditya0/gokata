@@ -1,0 +1,15 @@
+Login with valid credentials:
+  username: emilys
+  password: emilyspass
+
+Login with invalid credentials:
+  username: baduser
+  password: badpass
+
+Get product by ID:
+  product_id: "1"
+
+"E2E: Login then get product":
+  username: emilys
+  password: emilyspass
+  product_id: "1"

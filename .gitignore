@@ -1,0 +1,14 @@
+*.exe
+*.dll
+*.so
+*.test
+*.out
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+core/reports/
+events.jsonl
+vendor/
+node_modules/
+go.work

@@ -1,0 +1,7 @@
+Login with valid credentials:
+  username: emilys
+  password: emilyspass
+
+Login with invalid credentials:
+  username: invaliduser
+  password: wrongpass
