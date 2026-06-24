@@ -1,4 +1,5 @@
 @echo off
+pushd "%~dp0"
 set GINKGO=%GOPATH%\bin\ginkgo.exe
 
 if "%1"=="" goto usage
@@ -21,7 +22,7 @@ if "%1"=="run" (
     set DATA_MODE=%2& set DATA_NAME=%3& set DATA_ENV=%4
     set RUN_ID=%date:~-4%%date:~3,2%%date:~0,2%_%time:~0,2%%time:~3,2%%time:~6,2%
     set RUN_ID=%RUN_ID: =0%
-    %GINKGO% -v -r --json-report="reports\%2_%3_%4_%RUN_ID%.json" --label-filter="%3 && %4" ./tests/scenarios
+    %GINKGO% -v -r --output-dir="reports" --json-report="%2_%3_%4_%RUN_ID%.json" --label-filter="%3 && %4" ./tests/scenarios
     goto end
 )
 
@@ -58,3 +59,4 @@ echo   run-tests.bat list "products && PROJ-123 && sit"
 echo.
 
 :end
+popd

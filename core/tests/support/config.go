@@ -26,10 +26,10 @@ func GetConfig() *Config {
 func GetTimeout() time.Duration {
 	d, err := time.ParseDuration(GetConfig().Timeout)
 	if err != nil {
-		return 30 * time.Second``
+		return 30 * time.Second
 	}
 	return d
-}``
+}
 
 func loadConfig() *Config {
 	c := &Config{
