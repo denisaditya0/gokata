@@ -20,19 +20,31 @@ if "%1"=="list" (
 :: Run tests
 if "%1"=="run" (
     set DATA_MODE=%2& set DATA_NAME=%3& set DATA_ENV=%4
-    set RUN_ID=%date:~-4%%date:~3,2%%date:~0,2%_%time:~0,2%%time:~3,2%%time:~6,2%
-    set RUN_ID=%RUN_ID: =0%
-    %GINKGO% -v -r --output-dir="reports" --json-report="%2_%3_%4_%RUN_ID%.json" --label-filter="%3 && %4" ./tests/scenarios
-    goto end
+    if not exist reports mkdir reports
+    goto dorun
 )
+goto skiprun
+:dorun
+set RUN_ID=%date:~-4%%date:~3,2%%date:~0,2%_%time:~0,2%%time:~3,2%%time:~6,2%
+set RUN_ID=%RUN_ID: =0%
+%GINKGO% -v -r --output-dir="reports" --json-report="%DATA_MODE%_%DATA_NAME%_%DATA_ENV%_%RUN_ID%.json" --label-filter="%DATA_NAME% && %DATA_ENV%" ./tests/scenarios
+goto end
+:skiprun
 
 :: Fast run (cached build)
 if "%1"=="fast" (
     set DATA_MODE=%2& set DATA_NAME=%3& set DATA_ENV=%4
-    go test -c -o tests\scenarios\test.exe ./tests/scenarios 2>nul
-    tests\scenarios\test.exe --ginkgo.v --ginkgo.label-filter="%3 && %4"
-    goto end
+    if not exist reports mkdir reports
+    goto dofast
 )
+goto skipfast
+:dofast
+set RUN_ID=%date:~-4%%date:~3,2%%date:~0,2%_%time:~0,2%%time:~3,2%%time:~6,2%
+set RUN_ID=%RUN_ID: =0%
+go test -c -o tests\scenarios\test.exe ./tests/scenarios 2>nul
+tests\scenarios\test.exe --ginkgo.v --ginkgo.json-report="reports\%DATA_MODE%_%DATA_NAME%_%DATA_ENV%_%RUN_ID%.json" --ginkgo.label-filter="%DATA_NAME% && %DATA_ENV%"
+goto end
+:skipfast
 
 :: Build
 if "%1"=="build" (
